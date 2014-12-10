@@ -1,0 +1,31 @@
+#include <cstring>
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int x,y,a,b,t,m;
+    scanf("%d",&t);
+    while(t--) {
+        scanf("%d%d%d%d%d",&x,&y,&a,&b,&m);
+        int v1 = x,v2 = y,sum = 0;
+        if(m == 0) printf("0\n");
+        else if(m == 1) printf("%d\n",v1);
+        else if(m == 2) printf("%d\n",v1 + v2);
+        else if(a == 0 && b == 0) printf("%d\n",v1 + v2);
+        else if(x == 0 && y == 0) printf("0\n");
+        else {
+            sum = v1 + v2;
+            for(int i = 3;i <= m;i++) {
+                int v = a * v1 + b * v2;
+                sum += v;
+                v1 = v2; v2 = v;
+            }
+            printf("%d\n",sum);
+        }
+    }
+    return 0;
+}
+

@@ -1,0 +1,59 @@
+#include <cstdio>
+#include <sstream>
+#include <fstream>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+#include <map>
+#include <cctype>
+#include <ctime>
+#include <set>
+#include <climits>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <cstdlib>
+#include <cmath>
+#include <string>
+#include <list>
+
+#define INPUT_FILE "in.txt"
+#define OUTPUT_FILE "out.txt"
+
+using namespace std;
+
+typedef long long LL;
+const int INF = INT_MAX / 2;
+
+void setfile() {
+	freopen(INPUT_FILE,"r",stdin);
+	freopen(OUTPUT_FILE,"w",stdout);
+}
+
+
+const int N = 205;
+const int M = 1000000 + 5;
+int F[1][N];
+int main() {
+	int n,m,l,r,w;
+	while(scanf("%d%d%d%d",&n,&m,&l,&r)) {
+		if((n | m | l | r) == 0)break;
+		memset(F,0,sizeof(F));
+		int k = 0;
+		F[k][0] = 1;
+		for(int i = 1;i <= m;i++) {
+			scanf("%d",&w);
+			k = 1 - k;
+			for(int j = 0;j < n;j++)
+				F[k][j] = F[1-k][(j+w)%n] + F[1-k][((j-w)%n+n)%n];
+		}
+		int sum = 0,sum1 = 0;
+		for(int i = l - 1;i < r;i++)
+			sum += F[k][i];
+		for(int i = 0;i < n;i++)
+			sum1 += F[k][i];
+		printf("%.4lf\n",double(sum)/double(sum1));
+	}
+}
+
+
