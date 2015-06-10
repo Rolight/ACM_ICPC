@@ -8,28 +8,22 @@ typedef long long LL;
 const int maxn = 505;
 
 LL n, m, b, mod;
-LL f1[maxn][maxn], f2[maxn][maxn], a[maxn];
+LL f[maxn][maxn], a[maxn];
 
 int main() {
 	cin >> n >> m >> b >> mod;
+	LL ans = 0;
 	for(int i = 1; i <= n; i++) cin >> a[i];
-	for(int i = 0; i <= m && i * a[1] <= b; i++) {
-		f1[i * a[1]][i]++;
-	}
-	for(int i = 2; i <= n; i++) {
-		memset(f2, 0, sizeof(f2));
-		for(int j = 0; j <= m; j++) {
-			for(int k = 0; k + j * a[i] <= b; k++) {
-				for(int l = 0; l + j <= m; l++) {
-					f2[k + j * a[i]][l + j] += f1[k][l];
-					f2[k + j * a[i]][l + j] %= mod;
-				}
+	f[0][0] = 1;
+	for(int i = 1; i <= n; i++) {
+		for(int j = 1; j <= m; j++) {
+			for(int k = a[i]; k <= b; k++) {
+				f[j][k] += f[j - 1][k - a[i]];
+				f[j][k] %= mod;
 			}
 		}
-		memcpy(f1, f2, sizeof(f1));
 	}
-	LL ans = 0;
-	for(int i = 0; i <= b; i++) ans = (ans + f1[i][m]) % mod;
+	for(int i = 0; i <= b; i++) ans = (ans + f[m][i]) % mod;
 	cout << ans << endl;
 	return 0;
 }
